@@ -1,4 +1,5 @@
 import styles from "./page.module.css";
+// @ts-ignore
 import Rcon from "rcon";
 
 type PalworldPlayer = {
