@@ -1,7 +1,7 @@
 "use server"
 import {parseServerStringToPlayers, parseVersionStringFromServer} from './parser';
 // @ts-ignore
-import Rcon from "rcon";
+import Rcon from './rcon';
 
 export type PalworldPlayer = {
     name: string;
