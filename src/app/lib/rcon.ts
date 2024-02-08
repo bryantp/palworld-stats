@@ -1,8 +1,4 @@
-/*!
- * node-rcon
- * Copyright(c) 2012 Justin Li <j-li.net>
- * MIT Licensed
- */
+// @ts-nocheck
 
 var util = require('util')
   , events = require('events')

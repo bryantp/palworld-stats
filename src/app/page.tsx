@@ -1,15 +1,5 @@
 import styles from "./page.module.css";
-// @ts-ignore
-import Rcon from "rcon";
 import getServerData from './lib/data';
-
-type PalworldPlayer = {
-  name: string;
-  playerUid: string;
-}
-
-const getRconConnection = () => new Rcon(process.env.PALWORLD_HOST, process.env.PALWORLD_PORT, process.env.PALWORLD_ADMIN_PASSWORD);
-
 
 const getServerDataPage = async () => {
   const data = await getServerData();
