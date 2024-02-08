@@ -15,8 +15,8 @@ const parseServerStringToPlayers = (playerServerResponse: string) : PalworldPlay
         }
 
         return {
-        name: playerDetails[0],
-        playerUid: playerDetails[1]
+            name: playerDetails[0],
+            playerUid: playerDetails[1]
         }
     });
 

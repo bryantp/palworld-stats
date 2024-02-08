@@ -13,7 +13,6 @@ export type PalworldServerData = {
     version: string;
 }
 
-
 const getRconConnection = () => {
   const connection = new Rcon(process.env.PALWORLD_HOST, process.env.PALWORLD_PORT, process.env.PALWORLD_ADMIN_PASSWORD);
   connection.setTimeout(5000);
@@ -83,10 +82,6 @@ const getVersion = (): Promise<String> => {
       });
   
     });
-}
-
-const hydrateData = () => {
-
 }
 
 const getServerData = async () => {
