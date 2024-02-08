@@ -24,6 +24,7 @@ export default function RootLayout({
       <body className={inter.className}>
         {children}
         <BootstrapClient />
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -111,7 +111,6 @@ Rcon.prototype.setTimeout = function(timeout, callback) {
 
 Rcon.prototype._udpSocketOnData = function(data) {
   var a = data.readUInt32LE(0);
-  console.log('UDP Response')
   if (a == 0xffffffff) {
     var str = data.toString("utf-8", 4);
     var tokens = str.split(" ");
@@ -128,18 +127,14 @@ Rcon.prototype._udpSocketOnData = function(data) {
 }
 
 Rcon.prototype._tcpSocketOnData = function(data) {
-  console.log("TCP Response");
   if (this.outstandingData != null) {
-    console.log('Outstanding data');
     data = Buffer.concat([this.outstandingData, data], this.outstandingData.length + data.length);
     this.outstandingData = null;
   }
 
   while (data.length >= 12) {
-    console.log(`Reading data ${data.length}`);
     var len = data.readInt32LE(0); // Size of entire packet, not including the 4 byte length field
     if (!len) {
-      console.log('Invalid packet header');
       return; // No valid packet header, discard entire buffer
     }
 
