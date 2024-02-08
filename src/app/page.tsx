@@ -1,5 +1,6 @@
 import styles from "./page.module.css";
 import getServerData from './lib/data';
+export const dynamic = 'force-dynamic'
 
 const getServerDataPage = async () => {
   const data = await getServerData();
