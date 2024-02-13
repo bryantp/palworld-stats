@@ -9,13 +9,13 @@ const parseServerStringToPlayers = (playerServerResponse: string) : PalworldPlay
         const playerDetails = line.split(',');
         if(!playerDetails || playerDetails.length < 2) {
         return {
-            name: '',
+            username: '',
             playerUid: ''
         }
         }
 
         return {
-            name: playerDetails[0],
+            username: playerDetails[0],
             playerUid: playerDetails[1]
         }
     });

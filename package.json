@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vercel/kv": "^1.0.1",
     "@vercel/postgres": "^0.7.2",
     "@vercel/speed-insights": "^1.0.9",
     "bootstrap": "^5.3.2",

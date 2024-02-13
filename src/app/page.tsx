@@ -1,13 +1,13 @@
 import styles from "./page.module.css";
-import getServerData from './lib/data';
+import getServerData, { PalworldPlayer } from './lib/data';
 export const dynamic = 'force-dynamic'
 
 const getServerDataPage = async () => {
   const data = await getServerData();
 
-  const playerData = data?.players?.map(player => (
-    <tr key={player.name}>
-    <th>{player.name}</th>
+  const playerData = data?.players?.map((player: PalworldPlayer) => (
+    <tr key={player.username}>
+    <th>{player.username}</th>
     <td>{player.playerUid}</td>
   </tr>
   ))
