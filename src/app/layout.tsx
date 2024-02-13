@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from '@vercel/analytics/react';
 import "./globals.css";
 import BootstrapClient from '../../src/components/BootstrapClient';
 
@@ -25,6 +26,7 @@ export default function RootLayout({
         {children}
         <BootstrapClient />
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
