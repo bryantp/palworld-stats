@@ -14,7 +14,7 @@ const getServerDataPage = async () => {
 
   return (
     <div className="container">
-          <h1>Palstoria Server Players [{data?.version}]</h1>
+          <h1>Palstoria Server Players [{data?.version || ''}]</h1>
           <table className="table table-primary">
             <thead>
                 <tr>

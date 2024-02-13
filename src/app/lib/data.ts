@@ -16,7 +16,7 @@ export type PalworldServerData = {
 
 const updater = new UpdaterService();
 
-const getServerData = async () => {
+const getServerData = async (): Promise<PalworldServerData> => {
   updater.start();
   const [players, version] = await Promise.all([getPlayersFromRedis(), getServerVersionFromRedis()]);
 
