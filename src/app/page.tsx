@@ -46,8 +46,6 @@ export default async function Home() {
     page = getErrorPage();
   }
 
-  
-
   return (
     <main className="container">
       {page}

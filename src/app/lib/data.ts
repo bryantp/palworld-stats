@@ -3,6 +3,9 @@ import {parseServerStringToPlayers, parseVersionStringFromServer} from './parser
 // @ts-ignore
 import Rcon from './rcon';
 
+import { sql } from '@vercel/postgres';
+import { NextResponse } from 'next/server';
+
 export type PalworldPlayer = {
     name: string;
     playerUid: string;
@@ -84,9 +87,29 @@ const getVersion = (): Promise<String> => {
     });
 }
 
+const getActivePlayers = async () => {
+  try {
+    const data = await sql`SELECT username, player_server_uuid, joined_timestamp from users_online`;
+    return data.rows?.map((row: { username: string; player_server_uuid: string; }) => {return {name: row.username, playerUid: row.player_server_uuid}});
+  } catch(error) {
+    console.error(`Unable to connect to DB ${error}`);
+    return [];
+  }
+};
+
+const getServerVersion = async () => {
+  try {
+    const data = await sql`SELECT version from server_version_history order by version_date DESC LIMIT 1`;
+    return data.rows?.[0]?.version;
+  } catch(error) {
+    console.error(`Unable to connect to DB ${error}`);
+    return [];
+  }
+}
+
 const getServerData = async () => {
-  const players = await getPlayers();
-  const version = await getVersion();
+  const players = await getActivePlayers();
+  const version = await getServerVersion();
 
   return {
     players: players,
