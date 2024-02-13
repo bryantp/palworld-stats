@@ -1,10 +1,9 @@
-"use server"
-
 import {setPlayersToRedis, setServerVersionToRedis} from '../redis/palworldredis';
 import {getPlayers, getVersion} from '../rcon/palworldrcon';
 
 //TODO: Error handling
-const updater = (interval: number) => {
+const updater = async (interval: number) => {
+    "use server"
     setInterval(async () => {
         console.log('Updating from palworld server...');
         const [players, version] = await Promise.all([getPlayers(), getVersion()]);
@@ -25,6 +24,7 @@ export default class UpdaterService {
     }
 
     start() {
+        "use server"
         if(this.init) return;
         console.log("Starting Updater...");
         updater(this.updaterInterval);
