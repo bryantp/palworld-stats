@@ -1,3 +1,5 @@
+"use server"
+
 import { kv } from "@vercel/kv";
 import { PalworldPlayer } from "../data";
 

@@ -1,3 +1,5 @@
+"use server"
+
 import {setPlayersToRedis, setServerVersionToRedis} from '../redis/palworldredis';
 import {getPlayers, getVersion} from '../rcon/palworldrcon';
 
