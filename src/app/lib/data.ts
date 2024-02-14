@@ -2,7 +2,6 @@
 
 import {getPlayersFromRedis, getServerVersionFromRedis} from './redis/palworldredis'
 import {getPlayers, getVersion} from './rcon/palworldrcon';
-import UpdaterService from './async/updater';
 
 export type PalworldPlayer = {
     username: string;
@@ -14,10 +13,7 @@ export type PalworldServerData = {
     version: string;
 }
 
-const updater = new UpdaterService();
-
 const getServerData = async (): Promise<PalworldServerData> => {
-  updater.start();
   const [players, version] = await Promise.all([getPlayersFromRedis(), getServerVersionFromRedis()]);
 
   if(!players || !version) {

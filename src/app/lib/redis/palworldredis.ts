@@ -1,25 +1,39 @@
 "use server"
 
-import { kv } from "@vercel/kv";
 import { PalworldPlayer } from "../data";
+import { Redis, RedisOptions  } from 'ioredis';
+
 
 const PLAYER_LIST_KEY = "pal:server:players";
 const SERVER_VERSION_KEY = "pal:server:version";
 
-const KEY_EXPIRE_TIME_SECONDS = Number(process.env.REDIS_EXPIRE_TIME_SECONDS) || 15;
+let instance : Redis; 
 
-export const getPlayersFromRedis = (): PalworldPlayer[] => {
-    return kv.json.get(PLAYER_LIST_KEY) as unknown as PalworldPlayer[];
+const getRedisInstance = () => {
+    if(!instance) {
+        const connectionInfo: RedisOptions   = {
+            host: process.env.REDIS_HOST,
+            port: Number(process.env.REDIS_PORT),
+            username: process.env.REDIS_USERNAME,
+            password: process.env.REDIS_PASSWORD,
+            tls: {
+                rejectUnauthorized: false
+            },
+            readOnly: true
+        };
+        instance = new Redis(connectionInfo);
+    }
+
+
+    return instance;
 }
 
-export const setPlayersToRedis = (players: PalworldPlayer[]) => {
-    kv.json.set(PLAYER_LIST_KEY, "$", players).then(() => kv.expire(PLAYER_LIST_KEY, KEY_EXPIRE_TIME_SECONDS));
+export const getPlayersFromRedis = (): PalworldPlayer[] => {
+    getRedisInstance();
+    return instance.get(PLAYER_LIST_KEY).then((result: string | null) => result ? JSON.parse(result) : []) as unknown as PalworldPlayer[];
 }
   
 export const getServerVersionFromRedis = (): string => {
-    return kv.get(SERVER_VERSION_KEY) as unknown as string;
-}
-
-export const setServerVersionToRedis = (version: string) => {
-    kv.set(SERVER_VERSION_KEY, version).then(() => kv.expire(SERVER_VERSION_KEY, KEY_EXPIRE_TIME_SECONDS)); 
+    getRedisInstance();
+    return instance.get(SERVER_VERSION_KEY) as unknown as string;
 }

@@ -12,65 +12,66 @@ const getRconConnection = () => {
   
 export const getPlayers = (): Promise<PalworldPlayer[]> => {
     return new Promise((resolve, reject) => {
-    const conn = getRconConnection();
-    conn.connect();
+        const conn = getRconConnection();
+        conn.connect();
 
-    let gotAnswer = false;
+        let gotAnswer = false;
 
-    conn.on('auth', function() {
-        console.log("Authenticated");
-        conn.send("ShowPlayers");
-    }).on('response', function(str: any) {
-        gotAnswer = true;
-        console.log("Response: " + str);
-        conn.disconnect();
-        resolve(parseServerStringToPlayers(str));
-    }).on('error', function(err: any) {
-        console.log("Something went wrong: " + err);
-        reject(err);
-    }).on('server', function(str: any) {
-        console.log('server response:\n' + str);
-        gotAnswer = true;
-        conn.disconnect();
-        resolve(parseServerStringToPlayers(str));
-    }).on('end', function() {
-        if(!gotAnswer) {
-            reject('Never got a response from server for ShowPlayers');
-        }
-        console.log("Connection closed");
-    });
+        // @ts-ignore
+        conn.on('auth', function() {
+            console.log("Authenticated");
+            conn.send("ShowPlayers");
+        }).on('response', function(str: any) {
+            gotAnswer = true;
+            console.log("Response: " + str);
+            conn.disconnect();
+            resolve(parseServerStringToPlayers(str));
+        }).on('error', function(err: any) {
+            console.log("Something went wrong: " + err);
+            reject(err);
+        }).on('server', function(str: any) {
+            console.log('server response:\n' + str);
+            gotAnswer = true;
+            conn.disconnect();
+            resolve(parseServerStringToPlayers(str));
+        }).on('end', function() {
+            if(!gotAnswer) {
+                reject('Never got a response from server for ShowPlayers');
+            }
+            console.log("Connection closed");
+        });
     });
 }
     
 export const getVersion = (): Promise<string> => {
     return new Promise((resolve, reject) => {
-    const conn = getRconConnection();
-    conn.connect();
+        const conn = getRconConnection();
+        conn.connect();
 
-    let gotAnswer = false;
+        let gotAnswer = false;
 
-    conn.on('auth', function() {
-        console.log("Authenticated");
-        conn.send("Info");
-    }).on('response', function(str: any) {
-        gotAnswer = true;
-        console.log("Response: " + str);
-        conn.disconnect();
-        resolve(parseVersionStringFromServer(str));
-    }).on('error', function(err: any) {
-        console.log("Something went wrong: " + err);
-        reject(err);
-    }).on('server', function(str: any) {
-        gotAnswer = true;
-        console.log('server response:\n' + str);
-        conn.disconnect();
-        resolve(parseVersionStringFromServer(str));
-    }).on('end', function() {
-        if(!gotAnswer) {
-            reject('Never got a response from server for Info');
-        }
-        console.log("Connection closed");
-    });
-
+        // @ts-ignore
+        conn.on('auth', function() {
+            console.log("Authenticated");
+            conn.send("Info");
+        }).on('response', function(str: any) {
+            gotAnswer = true;
+            console.log("Response: " + str);
+            conn.disconnect();
+            resolve(parseVersionStringFromServer(str));
+        }).on('error', function(err: any) {
+            console.log("Something went wrong: " + err);
+            reject(err);
+        }).on('server', function(str: any) {
+            gotAnswer = true;
+            console.log('server response:\n' + str);
+            conn.disconnect();
+            resolve(parseVersionStringFromServer(str));
+        }).on('end', function() {
+            if(!gotAnswer) {
+                reject('Never got a response from server for Info');
+            }
+            console.log("Connection closed");
+        });
     });
 }

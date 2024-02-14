@@ -42,7 +42,7 @@ export default async function Home() {
   try {
     page = await getServerDataPage();
   } catch(err) {
-    console.log('Rendering error');
+    console.log(`Rendering error ${err}`);
     page = getErrorPage();
   }
 
