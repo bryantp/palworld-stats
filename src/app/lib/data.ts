@@ -13,8 +13,19 @@ export type PalworldServerData = {
     version: string;
 }
 
+const getRedisData = async (): Promise<[PalworldPlayer[], string]> => {
+  try {
+    const [players, version] = await Promise.all([getPlayersFromRedis(), getServerVersionFromRedis()]);
+    return [players, version];
+  } catch(err) {
+    console.error(`Unable to get redis data ${err}`);
+    return [[], ''];
+  }
+}
+
 const getServerData = async (): Promise<PalworldServerData> => {
-  const [players, version] = await Promise.all([getPlayersFromRedis(), getServerVersionFromRedis()]);
+  const [players, version] = await getRedisData();
+
 
   if(!players || !version) {
     const [rconPlayers, rconVersion] = await Promise.all([getPlayers(), getVersion()]);
