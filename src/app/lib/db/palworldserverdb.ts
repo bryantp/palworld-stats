@@ -21,10 +21,9 @@ export type PlayerPlayHistoryLookback = {
 export const getPlayersPlayHistory = (lookback: PlayerPlayHistoryLookback): Promise<PlayerPlayHistory[]>  => {
     try {
         const data = sql`
-            select user_name, floor(extract(epoch from sum(logout_timestamp - login_timestamp))/60) as time_played_minutes from palworld_login_logout_events
+            select user_name, floor(extract(epoch from sum(COALESCE(logout_timestamp, now()) - login_timestamp))/60) as time_played_minutes from palworld_login_logout_events
             where 
-                logout_timestamp is not null
-                and login_timestamp >=  now() -  make_interval(${lookback.years},${lookback.months},${lookback.weeks},${lookback.days},${lookback.hours})
+                login_timestamp >=  now() -  make_interval(${lookback.years},${lookback.months},${lookback.weeks},${lookback.days},${lookback.hours})
             group by user_name order by time_played_minutes desc
         `;
         const a = data
