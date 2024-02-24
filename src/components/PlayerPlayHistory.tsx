@@ -17,7 +17,7 @@ const getPrettyTimeColumns = (timeInMinutes: number): String => {
 
     //Days, Hours, Minutes
     const days =  Math.floor(timeInMinutes / 60 / 24);
-    const hours = Math.floor(timeInMinutes / 60);
+    const hours = Math.floor((timeInMinutes / 60) % 24);
     const minutes = Math.floor(timeInMinutes % 60);
     return `${days} Days, ${hours} Hours, ${minutes} Minutes`
 }
