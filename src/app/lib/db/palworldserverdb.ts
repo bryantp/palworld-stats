@@ -1,5 +1,6 @@
 'use server';
-import { Client, Pool, QueryResult } from 'pg'
+import { Pool, QueryResult } from 'pg'
+
  
 type PlayerPlayHistoryDb = {
     user_name: string,
@@ -33,7 +34,11 @@ const getInstance = () => {
             connectionTimeoutMillis: 2000,
             query_timeout: 1000,
             statement_timeout: 1000,
-            application_name: "palworld-stats"
+            application_name: "palworld-stats",
+            ssl: {
+                rejectUnauthorized: false,
+                ca: process.env.CA_CERT
+            }
         };
 
         instance = new Pool(config);
